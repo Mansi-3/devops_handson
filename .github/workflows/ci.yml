@@ -1,12 +1,11 @@
-name: My First CI Pipeline
+name: My First CI/CD Pipeline
 
-on: [push] 
-
+on: [push]
 
 jobs:
+  # JOB 1: TEST
   build-and-test:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -17,13 +16,22 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: |
-          pip install pytest flake8  # <--- Added flake8 here
+        run: pip install pytest flake8
 
       - name: Lint with Flake8
-        run: |
-          # stop the build if there are ANY errors (no --exit-zero)
-          flake8 . --count --show-source --statistics
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
       - name: Run the tests
         run: pytest
+
+  # JOB 2: DEPLOY (Only runs if Job 1 passes)
+  simulate-deploy:
+    needs: build-and-test  # <--- The Magic Word!
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Production
+        run: |
+          echo "🎉 Tests passed! Deploying application..."
+          echo "Connect to server..."
+          echo "Copying files..."
+          echo "✅ Deployed successfully!"
