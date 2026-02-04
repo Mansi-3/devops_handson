@@ -1,0 +1,1 @@
+[![My First CI Pipeline](https://github.com/Mansi-3/devops_handson/actions/workflows/ci.yml/badge.svg)](https://github.com/Mansi-3/devops_handson/actions/workflows/ci.yml)
